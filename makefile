@@ -11,3 +11,6 @@ basic-server.o: basic-server.c
 
 clean:
 	rm *.o *.exe
+
+smiles:
+	@echo "I love you"
