@@ -31,6 +31,7 @@ int main(int argc, char **argv){
 
     char resource[URI_LEN + 1];
     int resourcelen = 0;
+    char defaultresource[] = "index.html";
 
     /*
     char hostname[BLOCK];
@@ -47,7 +48,6 @@ int main(int argc, char **argv){
     // STRING LITERALS FOR RESPONSE
     char httpversion[] = "HTTP/1.1 ";
     char twohundred[] = "200 OK\r\n\r\n";
-
 
     // one port number
     if(argc > 1){
@@ -76,29 +76,11 @@ int main(int argc, char **argv){
         portnum = 8080;
     }
 
-    // TESTING BEGIN
-    fprintf(errtxt, "port number is: %d\n", portnum);
-    // TESTING END
-
     int listening = create_listen_socket(portnum);
-
-    // TESTING BEGIN
-    fprintf(errtxt, "opened socket\n");
-    // TESTING END
-
 
     // MAIN SERVER LOOP START
     while(1){
-
-        // zero the buffer
-        for (int i = 0; i < BLOCK; i += 1){
-            inbuf[i] = 0;
-        }
-
         int client = accept(listening, NULL, NULL);
-        // TESTING BEGIN
-        fprintf(errtxt, "client opened\n");
-        // TESTING END
 
         // HTTP STUFF START
 
@@ -126,10 +108,6 @@ int main(int argc, char **argv){
 
         while((rb = read(client, inbuf, BLOCK - inbuflen)) > 0){
             inbuflen += rb;
-
-            // TESTING BEGIN
-            fprintf(errtxt, "Looping\n");
-            // TESTING END
 
             // if we have a complete line gather data
             if ((endline = strstr(startline, "\r\n")) != NULL){
@@ -163,6 +141,13 @@ int main(int argc, char **argv){
                     firstspace += 2;
                     resourcelen = httpspot - firstspace;
                     strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
+                    
+                    // default resource
+                    strncpy(resource, defaultresource, 10);
+
+                    if (httpspot - firstspace != 0){
+                        strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
+                    }
 
                     // check if valid http type
                     if (strstr(startline, "HTTP/1.1") == NULL){
@@ -178,13 +163,13 @@ int main(int argc, char **argv){
                     break;
                 }
             }
-            // catch up startline to endline and skip the \r\n
             // TESTING BEGIN
             fprintf(errtxt, "First and Last of Line BEGIN\n");
             fprintf(errtxt, "%c", startline[0]);
             fprintf(errtxt, "%c", endline[0]);
             fprintf(errtxt, "First and Last of Line END\n");
             // TESTING END
+            // catch up startline to endline and skip the \r\n
             endline += 2 * sizeof(char);
             startline = endline;
 
@@ -231,7 +216,7 @@ int main(int argc, char **argv){
 
         // GET REQUEST
         if (getflag){
-            fprintf(errtxt, "performing get request\n");
+            printf("resource: %s\n", resource);
             int res = open(resource, O_RDONLY);
             if (res == -1){
                 warnx("file: Error opening resource");
@@ -257,7 +242,6 @@ int main(int argc, char **argv){
                         outbuflen = 0;
                     }
                 }
-                fprintf(errtxt, "outbuffer!\n\n%s\n", outbuf);
                 while (written += write(client, outbuf, outbuflen) != outbuflen){
                             continue;
                     }
