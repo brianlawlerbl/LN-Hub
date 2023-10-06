@@ -1,19 +1,15 @@
 CFLAGS=-Wall -Wextra -Werror -pedantic
 CC=clang $(CFLAGS)
+all		:	httpserver
 
-all: basic-server
+httpserver	:	httpserver.o bind.o
+		$(CC) $(CFLAGS) -o httpserver httpserver.o bind.o
 
-basic-server: basic-server.o
-	$(CC) -o basic-server.exe basic-server.o
+httpserver.o	:	httpserver.c 
+		$(CC) $(CFLAGS) -c httpserver.c
 
-basic-server.o: basic-server.c
-	$(CC) -c basic-server.c
+bind.o	: bind.c
+		$(CC) $(CFLAGS) -c bind.c
 
-format:
-	clang-format -i *.c
-
-clean:
-	rm *.o *.exe
-
-smiles:
-	@echo "I love you"
+clean		:
+		rm -f httpserver *.o
