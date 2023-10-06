@@ -31,9 +31,6 @@ int main(int argc, char **argv){
 
     char resource[URI_LEN + 1];
     int resourcelen = 0;
-    for (int i = 0; i < URI_LEN + 1; i += 1){
-        resource[i] = 0;
-    }
 
     /*
     char hostname[BLOCK];
@@ -112,6 +109,20 @@ int main(int argc, char **argv){
         char *startline = &inbuf[0];
         char *endline = &inbuf[0];
         int reqvhed = 0;
+
+        // clean buffers each request
+        for (int i = 0; i < BLOCK + 1; i += 1){
+            inbuf[i] = 0;
+        }
+        for (int i = 0; i < BLOCK + 1; i += 1){
+            outbuf[i] = 0;
+        }
+        for (int i = 0; i < URI_LEN + 1; i += 1){
+            resource[i] = 0;
+        }
+        inbuflen = 0;
+        outbuflen = 0;
+        resourcelen = 0;
 
         while((rb = read(client, inbuf, BLOCK - inbuflen)) > 0){
             inbuflen += rb;
@@ -259,7 +270,7 @@ int main(int argc, char **argv){
 
         // TESTING BEGIN
         fprintf(errtxt, "closed client\n");
-        break;
+        // break;
         // TESTING END
 
     // END
