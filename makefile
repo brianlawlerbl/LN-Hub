@@ -9,6 +9,9 @@ basic-server: basic-server.o
 basic-server.o: basic-server.c
 	$(CC) -c basic-server.c
 
+format:
+	clang-format -i *.c
+
 clean:
 	rm *.o *.exe
 
