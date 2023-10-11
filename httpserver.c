@@ -1,4 +1,5 @@
 #include "bind.h"
+#include "methodGET.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +10,8 @@
 #include <unistd.h>
 #include <err.h>
 #include <fcntl.h>
+
+// NEED TO WRITE A FLAG TO CHECK IF DONE PARSING HEADERS FOR SECURITY AGAINST MESSAGE CONTENT
 
 // ONLY FOR TESTING PURPOSES
 #include <stdio.h>
@@ -46,8 +49,8 @@ int main(int argc, char **argv){
     FILE *errtxt = fopen("err.txt", "w+");
 
     // STRING LITERALS FOR RESPONSE
-    char httpversion[] = "HTTP/1.1 ";
-    char twohundred[] = "200 OK\r\n\r\n";
+    // char httpversion[] = "HTTP/1.1 ";
+    // char twohundred[] = "200 OK\r\n\r\n";
 
     // one port number
     if(argc > 1){
@@ -146,6 +149,9 @@ int main(int argc, char **argv){
                     strncpy(resource, defaultresource, 10);
 
                     if (httpspot - firstspace != 0){
+                        for (int i = 0; i < URI_LEN; i += 1){
+                            resource[i] = 0;
+                        }
                         strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
                     }
 
@@ -216,6 +222,8 @@ int main(int argc, char **argv){
 
         // GET REQUEST
         if (getflag){
+            method_GET(200, client, resource, outbuf, outbuflen, BLOCK);
+            /*
             printf("resource: %s\n", resource);
             int res = open(resource, O_RDONLY);
             if (res == -1){
@@ -247,6 +255,7 @@ int main(int argc, char **argv){
                     }
             }
             close(res);
+            */
         }
 
         // HTTP STUFF END
