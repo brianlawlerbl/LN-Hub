@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
             for (int i = 0; i < URI_LEN; i += 1) {
               resource[i] = 0;
             }
-            strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
+            strncpy(resource, defaultresource, 10);
           }
 
           // check if valid http type
@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 
     // GET REQUEST
     if (getflag) {
-      method_GET(200, client, resource, outbuf);
+      method_GET(200, client, resource);
       /*
       printf("resource: %s\n", resource);
       int res = open(resource, O_RDONLY);

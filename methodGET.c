@@ -12,11 +12,10 @@ int method_GET(int response_code, int client, char *resource) {
   } else {
     // write response line
     // STRING LITERALS FOR RESPONSE
-    char httpversion[] = "HTTP/1.1 ";
-    char twohundred[] = "200 OK\r\n\r\n";
+    // char httpversion[] = "HTTP/1.1 ";
+    // char twohundred[] = "200 OK\r\n\r\n";
     if (response_code == 200) {
-      write(client, httpversion, 9);
-      write(client, twohundred, 10);
+      responseline(200, client);
     }
   
   char out[BLOCK];
