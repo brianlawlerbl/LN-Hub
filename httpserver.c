@@ -1,5 +1,6 @@
 #include "bind.h"
 #include "methodGET.h"
+#include "responseline.h"
 #include "macros.h"
 #include <arpa/inet.h>
 #include <err.h>
@@ -46,11 +47,8 @@ int main(int argc, char **argv) {
   char outbuf[BLOCK];
   // int outbuflen = 0;
 
+  // file for debugging info
   FILE *errtxt = fopen("err.txt", "w+");
-
-  // STRING LITERALS FOR RESPONSE
-  // char httpversion[] = "HTTP/1.1 ";
-  // char twohundred[] = "200 OK\r\n\r\n";
 
   // one port number
   if (argc > 1) {
@@ -88,7 +86,9 @@ int main(int argc, char **argv) {
     // HTTP STUFF START
 
     // loop to get request line and header
-    int getflag, headflag, postflag = 0;
+    int getflag = 0;
+    int headflag = 0;
+    int postflag = 0;
     int rb = 0;
     char *endofheader;
     char *startline = &inbuf[0];
@@ -141,7 +141,6 @@ int main(int argc, char **argv) {
           // copy URI to storage
           firstspace += 2;
           resourcelen = httpspot - firstspace;
-          strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
 
           // default resource
           strncpy(resource, defaultresource, 10);
@@ -150,7 +149,7 @@ int main(int argc, char **argv) {
             for (int i = 0; i < URI_LEN; i += 1) {
               resource[i] = 0;
             }
-            strncpy(resource, defaultresource, 10);
+            strncpy(resource, firstspace, MIN(URI_LEN, resourcelen));
           }
 
           // check if valid http type
@@ -199,6 +198,9 @@ int main(int argc, char **argv) {
       }
     }
 
+    // start of content
+    // char *begincontent = endofheader + 4;
+
     // TESTING BEGIN
     char bar[10];
     bar[0] = '|';
@@ -222,39 +224,14 @@ int main(int argc, char **argv) {
     // GET REQUEST
     if (getflag) {
       method_GET(200, client, resource);
-      /*
-      printf("resource: %s\n", resource);
-      int res = open(resource, O_RDONLY);
-      if (res == -1){
-          warnx("file: Error opening resource");
-      }
-      else {
-          // write response line
-          write(client, httpversion, 9);
-          write(client, twohundred, 10);
-
-          int written = 0;
-          // write content
-          while((rb = read(res, outbuf, BLOCK - outbuflen)) > 0){
-              outbuflen += rb;
-
-              // flush on full
-              if (outbuflen == BLOCK) {
-                  while (written += write(client, outbuf, BLOCK) != BLOCK){
-                      continue;
-                  }
-                  for (int i = 0; i < BLOCK; i += 1){
-                      outbuf[i] = 0;
-                  }
-                  outbuflen = 0;
-              }
-          }
-          while (written += write(client, outbuf, outbuflen) != outbuflen){
-                      continue;
-              }
-      }
-      close(res);
-      */
+    }
+    // HEAD REQUEST CURRENTLY UNIMPLEMENTED
+    else if (headflag){
+      responseline(501, client);
+    }
+    // POST REQUEST CURRENTLY UNIMPLEMENTED
+    else if (postflag){
+      responseline(501, client);
     }
 
     // HTTP STUFF END
@@ -262,6 +239,7 @@ int main(int argc, char **argv) {
 
     // TESTING BEGIN
     fprintf(errtxt, "closed client\n");
+    // uncomment below to make server only serve one request
     // break;
     // TESTING END
 

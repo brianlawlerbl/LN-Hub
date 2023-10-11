@@ -5,15 +5,12 @@
 #include <stdio.h>
 
 int method_GET(int response_code, int client, char *resource) {
-  printf("resource: %s\n", resource);
+  // printf("resource: %s\n", resource);
   int res = open(resource, O_RDONLY);
   if (res == -1) {
     warnx("file: Error opening resource");
   } else {
     // write response line
-    // STRING LITERALS FOR RESPONSE
-    // char httpversion[] = "HTTP/1.1 ";
-    // char twohundred[] = "200 OK\r\n\r\n";
     if (response_code == 200) {
       responseline(200, client);
     }

@@ -22,3 +22,9 @@ format	:
 
 clean		:
 		rm -f httpserver *.o *.gch *.out
+
+me	:
+		@echo ""
+
+smile	:
+		@echo "Hope you're having a good day :)"

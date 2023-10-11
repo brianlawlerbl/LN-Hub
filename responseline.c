@@ -154,7 +154,7 @@ int responseline(int response_code, int client){
   // write full status line to client
   char *code = codes[response_code];
   if (code == NULL){
-    printf("error: no such status code\r\n\r\n");
+    // printf("error: no such status code\r\n\r\n");
     return -1;
   }
   int codelen = strlen(code);
@@ -163,9 +163,6 @@ int responseline(int response_code, int client){
   strncpy(&out[0], httpversion, 9);
   strncpy(&out[9], code, codelen);
   strncpy(&out[9 + codelen], rnrn, 4);
-  // write(client, httpversion, 9);
-  // write (client, code, codelen);
-  // write(client, rnrn, 4);
   while (written += write(client, out, totallen - written) < totallen){
     continue;
   }
