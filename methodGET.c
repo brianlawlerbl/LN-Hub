@@ -4,7 +4,7 @@
 // for testing
 #include <stdio.h>
 
-int method_GET(int response_code, int client, char *resource, char *out) {
+int method_GET(int response_code, int client, char *resource) {
   printf("resource: %s\n", resource);
   int res = open(resource, O_RDONLY);
   if (res == -1) {
@@ -18,12 +18,12 @@ int method_GET(int response_code, int client, char *resource, char *out) {
       write(client, httpversion, 9);
       write(client, twohundred, 10);
     }
-  /*
-  char outbuf[BLOCK];
+  
+  char out[BLOCK];
   for (int i = 0; i < BLOCK; i += 1) {
     out[i] = 0;
   }
-  */
+  
   int outlen = 0;
   int written = 0;
   int rb = 0;
@@ -61,9 +61,7 @@ int main(void){
   strcpy(&res[0], "food.txt");
   printf("copied resource into resource string for testing\n");
 
-  char outbuf[BLOCK];
-
-  int ret = method_GET(200, 1, &res[0], outbuf);
+  int ret = method_GET(200, 1, &res[0]);
 
   return ret;
 }

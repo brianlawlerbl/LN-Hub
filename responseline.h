@@ -8,6 +8,5 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "responseline.h"
 
-int method_GET(int response_code, int client, char *resource);
+int responseline(int response_code, int client);
