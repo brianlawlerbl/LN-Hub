@@ -1,5 +1,6 @@
 #include "bind.h"
 #include "methodGET.h"
+#include "macros.h"
 #include <arpa/inet.h>
 #include <err.h>
 #include <errno.h>
@@ -17,8 +18,8 @@
 // ONLY FOR TESTING PURPOSES
 #include <stdio.h>
 
-#define BLOCK 8192
-#define URI_LEN 80
+// #define BLOCK 8192
+// #define URI_LEN 80
 extern int errno;
 
 int MIN(int a, int b) { return a > b ? b : a; }
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
   */
 
   char outbuf[BLOCK];
-  int outbuflen = 0;
+  // int outbuflen = 0;
 
   FILE *errtxt = fopen("err.txt", "w+");
 
@@ -105,7 +106,7 @@ int main(int argc, char **argv) {
       resource[i] = 0;
     }
     inbuflen = 0;
-    outbuflen = 0;
+    // outbuflen = 0;
     resourcelen = 0;
 
     while ((rb = read(client, inbuf, BLOCK - inbuflen)) > 0) {
@@ -220,7 +221,7 @@ int main(int argc, char **argv) {
 
     // GET REQUEST
     if (getflag) {
-      method_GET(200, client, resource, outbuf, outbuflen, BLOCK);
+      method_GET(200, client, resource, outbuf);
       /*
       printf("resource: %s\n", resource);
       int res = open(resource, O_RDONLY);

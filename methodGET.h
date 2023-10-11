@@ -9,5 +9,4 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-int method_GET(int response_code, int client, char *resource, char *out,
-               int outlen, int BLOCK);
+int method_GET(int response_code, int client, char *resource, char *out);
