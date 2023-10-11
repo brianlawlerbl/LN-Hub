@@ -3,7 +3,8 @@
 // for testing
 #include <stdio.h>
 
-int method_GET(int response_code, int client, char *resource, char *out, int outlen, int BLOCK) {
+int method_GET(int response_code, int client, char *resource, char *out,
+               int outlen, int BLOCK) {
   printf("resource: %s\n", resource);
   int res = open(resource, O_RDONLY);
   if (res == -1) {
@@ -13,13 +14,13 @@ int method_GET(int response_code, int client, char *resource, char *out, int out
     // STRING LITERALS FOR RESPONSE
     char httpversion[] = "HTTP/1.1 ";
     char twohundred[] = "200 OK\r\n\r\n";
-    if (response_code == 200){
+    if (response_code == 200) {
       write(client, httpversion, 9);
       write(client, twohundred, 10);
     }
 
     int written = 0;
-    int rb =0;
+    int rb = 0;
     // write content
     while ((rb = read(res, out, BLOCK - outlen)) > 0) {
       outlen += rb;
