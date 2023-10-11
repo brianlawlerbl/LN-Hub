@@ -18,4 +18,4 @@ format	:
 		clang-format -style=LLVM -i *.c *.h
 
 clean		:
-		rm -f httpserver *.o *.gch
+		rm -f httpserver *.o *.gch *.out
