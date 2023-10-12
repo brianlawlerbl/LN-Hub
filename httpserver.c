@@ -89,6 +89,13 @@ int main(int argc, char **argv) {
     int getflag = 0;
     int headflag = 0;
     int postflag = 0;
+    int putflag = 0;
+    int deleteflag = 0;
+    int connectflag = 0;
+    int optionsflag = 0;
+    int traceflag = 0;
+    int patchflag = 0;
+
     int rb = 0;
     char *endofheader;
     char *startline = &inbuf[0];
@@ -233,7 +240,34 @@ int main(int argc, char **argv) {
     else if (postflag){
       responseline(501, client);
     }
-
+    // PUT REQUEST CURRENTLY UNIMPLEMENTED
+    else if (putflag){
+      responseline(501, client);
+    }
+    // DELETE REQUEST CURRENTLY UNIMPLEMENTED
+    else if (deleteflag){
+      responseline(501, client);
+    }
+    // CONNECT REQUEST CURRENTLY UNIMPLEMENTED
+    else if (connectflag){
+      responseline(501, client);
+    }
+    // OPTIONS REQUEST CURRENTLY UNIMPLEMENTED
+    else if (optionsflag){
+      responseline(501, client);
+    }
+    // TRACE REQUEST CURRENTLY UNIMPLEMENTED
+    else if (traceflag){
+      responseline(501, client);
+    }
+    // PATCH REQUEST CURRENTLY UNIMPLEMENTED
+    else if (patchflag){
+      responseline(501, client);
+    }
+    // BAD REQUEST
+    else {
+      responseline(400, client);
+    }
     // HTTP STUFF END
     close(client);
 
