@@ -1,7 +1,7 @@
 #include "bind.h"
+#include "macros.h"
 #include "methodGET.h"
 #include "responseline.h"
-#include "macros.h"
 #include <arpa/inet.h>
 #include <err.h>
 #include <errno.h>
@@ -233,35 +233,35 @@ int main(int argc, char **argv) {
       method_GET(200, client, resource);
     }
     // HEAD REQUEST CURRENTLY UNIMPLEMENTED
-    else if (headflag){
+    else if (headflag) {
       responseline(501, client);
     }
     // POST REQUEST CURRENTLY UNIMPLEMENTED
-    else if (postflag){
+    else if (postflag) {
       responseline(501, client);
     }
     // PUT REQUEST CURRENTLY UNIMPLEMENTED
-    else if (putflag){
+    else if (putflag) {
       responseline(501, client);
     }
     // DELETE REQUEST CURRENTLY UNIMPLEMENTED
-    else if (deleteflag){
+    else if (deleteflag) {
       responseline(501, client);
     }
     // CONNECT REQUEST CURRENTLY UNIMPLEMENTED
-    else if (connectflag){
+    else if (connectflag) {
       responseline(501, client);
     }
     // OPTIONS REQUEST CURRENTLY UNIMPLEMENTED
-    else if (optionsflag){
+    else if (optionsflag) {
       responseline(501, client);
     }
     // TRACE REQUEST CURRENTLY UNIMPLEMENTED
-    else if (traceflag){
+    else if (traceflag) {
       responseline(501, client);
     }
     // PATCH REQUEST CURRENTLY UNIMPLEMENTED
-    else if (patchflag){
+    else if (patchflag) {
       responseline(501, client);
     }
     // BAD REQUEST

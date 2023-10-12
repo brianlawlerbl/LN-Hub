@@ -1,9 +1,9 @@
-#include "macros.h"
 #include "responseline.h"
+#include "macros.h"
 
 #include <stdio.h>
 
-int responseline(int response_code, int client){
+int responseline(int response_code, int client) {
   // httpversion and \r\n\r\n
   char httpversion[] = "HTTP/1.1 ";
   char rnrn[] = "\r\n\r\n";
@@ -68,7 +68,8 @@ int responseline(int response_code, int client){
   char upgrade_required[] = "426 Upgrade Required";
   char precondition_required[] = "428 Precondition Required";
   char too_many_requests[] = "429 Too Many Requests";
-  char request_header_fields_too_large[] = "431 Request Header Fields Too Large";
+  char request_header_fields_too_large[] =
+      "431 Request Header Fields Too Large";
   char unavailable_for_legal_reasons[] = "451 Unavailable For Legal Reasons";
 
   // 500 code
@@ -82,10 +83,11 @@ int responseline(int response_code, int client){
   char insufficient_storage[] = "507 Insufficient Storage";
   char loop_detected[] = "508 Loop Detected";
   char not_extended[] = "510 Not Extended";
-  char network_authentication_required[] = "511 Network Authentication Required";
+  char network_authentication_required[] =
+      "511 Network Authentication Required";
 
   // populate lookup table
-  for (int i = 0; i < 600; i += 1){
+  for (int i = 0; i < 600; i += 1) {
     codes[i] = NULL;
   }
   codes[200] = &ok[0];
@@ -153,7 +155,7 @@ int responseline(int response_code, int client){
 
   // write full status line to client
   char *code = codes[response_code];
-  if (code == NULL){
+  if (code == NULL) {
     // printf("error: no such status code\r\n\r\n");
     return -1;
   }
@@ -163,7 +165,7 @@ int responseline(int response_code, int client){
   strncpy(&out[0], httpversion, 9);
   strncpy(&out[9], code, codelen);
   strncpy(&out[9 + codelen], rnrn, 4);
-  while (written += write(client, out, totallen - written) < totallen){
+  while (written += write(client, out, totallen - written) < totallen) {
     continue;
   }
 
@@ -174,7 +176,6 @@ int responseline(int response_code, int client){
 
   // return 0 on success
   return 0;
-
 }
 
 /*

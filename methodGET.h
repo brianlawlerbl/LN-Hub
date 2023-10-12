@@ -1,3 +1,4 @@
+#include "responseline.h"
 #include <arpa/inet.h>
 #include <err.h>
 #include <errno.h>
@@ -8,6 +9,5 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "responseline.h"
 
 int method_GET(int response_code, int client, char *resource);

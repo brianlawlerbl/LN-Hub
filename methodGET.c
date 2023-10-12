@@ -14,37 +14,37 @@ int method_GET(int response_code, int client, char *resource) {
     if (response_code == 200) {
       responseline(200, client);
     }
-  
-  char out[BLOCK];
-  for (int i = 0; i < BLOCK; i += 1) {
-    out[i] = 0;
-  }
-  
-  int outlen = 0;
-  int written = 0;
-  int rb = 0;
-  // write content
-  while ((rb = read(res, out, BLOCK - outlen)) > 0) {
-    outlen += rb;
 
-    // flush on full
-    if (outlen == BLOCK) {
-      while (written += write(client, out, BLOCK) != BLOCK) {
-        continue;
+    char out[BLOCK];
+    for (int i = 0; i < BLOCK; i += 1) {
+      out[i] = 0;
+    }
+
+    int outlen = 0;
+    int written = 0;
+    int rb = 0;
+    // write content
+    while ((rb = read(res, out, BLOCK - outlen)) > 0) {
+      outlen += rb;
+
+      // flush on full
+      if (outlen == BLOCK) {
+        while (written += write(client, out, BLOCK) != BLOCK) {
+          continue;
+        }
+        for (int i = 0; i < BLOCK; i += 1) {
+          out[i] = 0;
+        }
+        outlen = 0;
       }
-      for (int i = 0; i < BLOCK; i += 1) {
-        out[i] = 0;
-      }
-      outlen = 0;
+    }
+    while (written += write(client, out, outlen) != outlen) {
+      continue;
     }
   }
-  while (written += write(client, out, outlen) != outlen) {
-    continue;
-  }
-}
-close(res);
+  close(res);
 
-return 0;
+  return 0;
 }
 
 /*
