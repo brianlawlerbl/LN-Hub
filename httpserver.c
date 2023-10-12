@@ -86,15 +86,10 @@ int main(int argc, char **argv) {
     // HTTP STUFF START
 
     // loop to get request line and header
-    int getflag = 0;
-    int headflag = 0;
-    int postflag = 0;
-    int putflag = 0;
-    int deleteflag = 0;
-    int connectflag = 0;
-    int optionsflag = 0;
-    int traceflag = 0;
-    int patchflag = 0;
+    int getflag, headflag, postflag, putflag, deleteflag, connectflag,
+        optionsflag, traceflag, patchflag;
+    getflag = headflag = postflag = putflag = deleteflag = connectflag =
+        optionsflag = traceflag = patchflag = 0;
 
     int rb = 0;
     char *endofheader;
